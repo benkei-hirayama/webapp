@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="overflow-auto">
+<h2>{{ subject_list.0.category.category_name }}</h2>
+<div class="row row-cols-auto">
+{% for s in subject_list %}
+  {% if s.contents_count > 0 %}
+  <div class="col">
+    <a style="font-size: small;" href="{{ BASE_URL }}/handbook/contents/{{ s.id }}/">
+      <div class="icon">
+	    {% if not user.is_authenticated %}
+          <img class="icon" src="/{{ s.subject_image }}">
+		{% elif user.is_leader %}
+          <img class="icon" src="/{{ s.subject_image }}">
+		{% else %}
+		  {% if s.id in records %}
+		    <img class="icon" src="/{{ s.subject_image }}">
+          {% else %}
+		    <img class="icon gray" src="/{{ s.subject_image }}">
+          {% endif %}
+        {% endif %}
+      </div>
+      <div style="width: 108px; text-align: center;">
+        {{ s.subject_name }}
+      </div>
+    </a>
+  </div>
+  {% endif %}
+{% endfor %}
+</div>
+{% endblock %}
+

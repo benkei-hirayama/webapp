@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="overflow-auto">
+  <h5> 
+    {{ target.0.team_name }} {{ target.0.last_name }} {{ target.0.first_name }}
+  </h5>
+  <table class="table table-borderless">
+    <tbody>
+	  <tr>
+	    <td style="width: 160px; text-align: right; vertical-align: middle;">やくそくした日</td>
+        <td style="vertical-align: middle">
+		{% if promise_1 %}
+		  <form style="margin-bottom: 0;" method="post" action="{{ request.path }}promise/1/delete/{{ promise_1.0.id }}/">
+		    {% csrf_token %}
+		  {{ promise_1.0.promise_date|date:"Y.m.d"}}
+			<input class="btn btn-outline-success" type="submit" value="削除">
+          </form>
+        {% else %}
+		  <a class="btn btn-outline-success" href="{{ request.path }}promise/1/create/">登録</a>
+		{% endif %}
+        </td>
+	  <tr>
+	    <td style="width: 160px; text-align: right; vertical-align: middle;">ちかいをたてた日</td>
+        <td style="vertical-align: middle">
+		{% if promise_2 %}
+		  <form style="margin-bottom: 0;" method="post" action="{{ request.path }}promise/2/delete/{{ promise_2.0.id }}/">
+		    {% csrf_token %}
+		  {{ promise_2.0.promise_date|date:"Y.m.d"}}
+			<input class="btn btn-outline-success" type="submit" value="削除">
+		  </form>
+		{% else %}
+		  <a class="btn btn-outline-success" href="{{ request.path }}promise/2/create/">登録</a>
+		{% endif %}
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  <div class="accordion" id="acdCourse">
+    <div class="card">
+      <div class="card-header" id="head1">
+        <h5 class="mb-0">
+          <button 
+            class="btn btn-link" type="button" data-toggle="collapse" data-target="#col1" 
+            aria-expanded="true" aria-controls="col1"
+          >
+            カブブック
+          </button>
+        </h5>
+      </div>
+      <div id="col1" class="collapse" aria-labelledby="head1" data-parent="#acdCourse">
+        <div class="card-body">
+          <div class="row row-cols-auto">
+          {% for s in subject_list_1 %}
+            {% if s.contents_count > 0 %}
+            <div class="col">
+              <a style="font-size: small;" href="{{ BASE_URL }}/handbook/course/{{ target.0.id}}/subject/{{ s.id }}">
+                <div class="icon">
+                  <img 
+                    {% if s.id in records %} class="icon" {% else %} class="icon gray" {% endif %}
+                    src="/{{ s.subject_image }}" 
+                  >
+                </div>
+                <div style="width: 108px; text-align: center;">
+                  {{ s.subject_name }}
+                </div>
+              </a>
+            </div>
+            {% endif %}
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="card-header" id="head2">
+        <h5 class="mb-0">
+          <button 
+            class="btn btn-link" type="button" data-toggle="collapse" data-target="#col2" 
+            aria-expanded="true" aria-controls="col2"
+          >
+            チャレンジ章
+          </button>
+        </h5>
+      </div>
+      <div id="col2" class="collapse" aria-labelledby="head2" data-parent="#acdCourse">
+        <div class="card-body">
+          <div class="row row-cols-auto">
+          {% for s in subject_list_2 %}
+            {% if s.contents_count > 0 %}
+            <div class="col">
+              <a style="font-size: small;" href="{{ BASE_URL }}/handbook/course/{{ target.0.id}}/subject/{{ s.id }}">
+                <div class="icon">
+                  <img 
+                    {% if s.id in records %} class="icon" {% else %} class="icon gray" {% endif %}
+                    src="/{{ s.subject_image }}"
+                  >
+                </div>
+                <div style="width: 108px; text-align: center;">
+                  {{ s.subject_name }}
+                </div>
+              </a>
+            </div>
+            {% endif %}
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="card-header" id="head3">
+        <h5 class="mb-0">
+          <button 
+            class="btn btn-link" type="button" data-toggle="collapse" data-target="#col3" 
+            aria-expanded="true" aria-controls="col3"
+          >
+            スカウトハンドブック
+          </button>
+        </h5>
+      </div>
+      <div id="col3" class="collapse" aria-labelledby="head3" data-parent="#acdCourse">
+        <div class="card-body">
+          <div class="row row-cols-auto">
+          {% for s in subject_list_3 %}
+            {% if s.contents_count > 0 %}
+            <div class="col">
+              <a style="font-size: small;" href="{{ BASE_URL }}/handbook/course/{{ target.0.id}}/subject/{{ s.id }}">
+              <div class="icon">
+                <img 
+                  {% if s.id in records %} class="icon" {% else %} class="icon gray" {% endif %}
+                  src="/{{ s.subject_image }}"
+                >
+              </div>
+              <div style="width: 108px; text-align: center;">
+                {{ s.subject_name }}
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-header" id="head4">
+      <h5 class="mb-0">
+        <button 
+	      class="btn btn-link" type="button" data-toggle="collapse" data-target="#col4" 
+          aria-expanded="true" aria-controls="col4"
+        >
+          技能章
+        </button>
+      </h5>
+    </div>
+    <div id="col4" class="collapse" aria-labelledby="head4" data-parent="#acdCourse">
+      <div class="card-body">
+        <div class="row row-cols-auto">
+        {% for s in subject_list_4 %}
+          {% if s.contents_count > 0 %}
+          <div class="col">
+            <a style="font-size: small;" href="{{ BASE_URL }}/handbook/course/{{ target.0.id}}/subject/{{ s.id }}">
+              <div class="icon">
+                <img 
+                  {% if s.id in records %} class="icon" {% else %} class="icon gray" {% endif %}
+                  src="/{{ s.subject_image }}"
+                >
+              </div>
+              <div style="width: 108px; text-align: center;">
+                {{ s.subject_name }}
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-header" id="head5">
+      <h5 class="mb-0">
+        <button 
+		  class="btn btn-link" type="button" data-toggle="collapse" data-target="#col5" 
+		  aria-expanded="true" aria-controls="col5"
+        >
+          信仰奨励章
+        </button>
+      </h5>
+    </div>
+    <div id="col5" class="collapse" aria-labelledby="head5" data-parent="#acdCourse">
+      <div class="card-body">
+        <div class="row row-cols-auto">
+        {% for s in subject_list_5 %}
+          {% if s.contents_count > 0 %}
+          <div class="col">
+            <a style="font-size: small;" href="{{ BASE_URL }}/handbook/course/{{ target.0.id}}/subject/{{ s.id }}">
+              <div class="icon">
+                <img 
+                  {% if s.id in records %} class="icon" {% else %} class="icon gray" {% endif %}
+                  src="/{{ s.subject_image }}"
+                >
+              </div>
+              <div style="width: 108px; text-align: center;">
+                {{ s.subject_name }}
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <br/>
+  <a href="/user_list/" class="btn btn-success">
+    <i class="fas fa-backward"></i></span> 戻る
+  </a>
+</div>
+{% endblock %}

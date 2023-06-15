@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}ユーザー情報閲覧{% endblock %}
+{% block content %}
+<table class="table">
+    <tbody>
+        <tr>
+            <th class="float-right">ユーザー名</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th class="float-right">姓</th>
+            <td>{{ user.last_name }}</td>
+        </tr>
+        <tr>
+            <th class="float-right">名</th>
+            <td>{{ user.first_name }}</td>
+        </tr>
+	<tr>
+	    <th class="float-right">所属団</th>
+	    <td>{{ user.team_name }}</td>
+	</tr>
+	<tr>
+	    <th class="float-right">指導者</th>
+	    <td>
+	        {% if user.is_leader %}
+		<label>指導者</label>
+		{% else %}
+		<label>スカウト</label>
+		{% endif %}
+	    </td>
+	</tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="overflow-auto">
+  <h5>
+    {{ target.0.team_name }} 
+    {{ target.0.last_name }} 
+    {{ target.0.first_name }}
+  </h5>
+  <table class="table table-borderless">
+    <tbody>
+      <tr>
+        <td style="width: 128px">
+		  <div class="icon">
+          	<img
+				{% if complate %} class="icon" {% else %} class="icon gray" {% endif %}
+				src="/{{ contents_list.0.subject.subject_image }}"
+			>
+          </div>
+        </td>
+        <td style="vertical-align: middle;">
+          <h4>{{ contents_list.0.subject.subject_name }}</h4>
+          {% if complate %}
+		    <p style="color: red">
+              修了日：{{ complate.0.comp_date|date:"Y.m.d"}} 
+              サイン：{{ complate.0.signature }}
+			  <form method="post" action="{{ request.path }}delete/{{ complate.0.id }}/">
+			    {% csrf_token %}
+                <input class="btn btn-outline-success" type="submit" value="削除">
+              </form>
+           </p>
+          {% else %}
+             <a class="btn btn-outline-success" href="{{ request.path }}create/">登録</a>
+          {% endif %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered">
+    <tbody>
+{% for c in contents_list %}
+  {% if c.chapter_title != none %}
+    {% if c.clause == 1 and c.sections < 2 %}
+      <tr>
+        <td colspan="2" style="background-color: lightgray">{{ c.chapter }}.{{ c.chapter_title }}</td>
+      </tr>
+    {% endif %}
+      <tr>
+	<td style="text-align: center; width: 64px;">
+	  {{ c.clause }}
+      {% if c.sections > 0 %} ({{ c.sections }}) {% endif %}
+	</td>
+	<td>
+	  {% autoescape off %}{{ c.document }}{% endautoescape %}
+      {% if c.id in reclist %}
+		{% for r in records %}
+		  {% if r.contents_id == c.id %}
+			<br>
+			<p style="font-size: 9pt; color: red; margin-bottom: 0;">
+			  脩了日{{ r.comp_date|date:"Y.m.d" }} 
+			  サイン:{{ r.signature }}
+			  <form method="post" action="{{ request.path }}contents/{{ c.id }}/delete/{{ r.id }}/">
+                {% csrf_token %}
+                <input class="btn btn-outline-success" style="font-size: small;" type="submit" value="削除">
+              </form>
+			</p>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <a class="btn btn-outline-success" href="{{ request.path }}contents/{{ c.id }}/create/">登録</a>
+      {% endif %}
+	</td>
+      </tr>
+  {% else %}
+      <tr>
+        <td style="text-align: center;">
+          {{ c.chapter  }}
+        </td>
+    {% if c.clause > 0 %}
+        <td style="text-align: center;">
+          {{ c.clause   }}
+      {% if c.sections > 0 %} ({{ c.sections}}) {% endif %}
+        </td>
+    {% endif %}
+        <td>
+          {% autoescape off %}{{ c.document }}{% endautoescape %}
+		  {% if c.id in reclist %}
+		    {% for r in records %}
+			  {% if r.contents_id == c.id %}
+				<br>
+				<p style="font-size: 9pt; color: red; margin-bottom: 0;">
+				  脩了日：{{ r.comp_date|date:"Y.m.d" }} 
+                  サイン：{{ r.signature }}
+			      <form method="post" action="{{ request.path }}contents/{{ c.id }}/delete/{{ r.id }}/">
+                    {% csrf_token %}
+                    <input class="btn btn-outline-success" style="font-size: small;" type="submit" value="削除">
+                  </form>
+				</p>
+			  {% endif %}
+			{% endfor %}
+          {% else %}
+            <a class="btn btn-outline-success" href="{{ request.path }}contents/{{ c.id }}/create/">登録</a>
+		  {% endif %}
+        </td>
+      </tr>
+  {% endif %}
+{% endfor %}
+    </tbody>
+  </table>
+  <br/>
+  <a href="/handbook/course/{{target.0.id}}/" class="btn btn-success">
+    <i class="fas fa-backward"></i></span> 戻る
+  </a>
+</div>
+{% endblock %}

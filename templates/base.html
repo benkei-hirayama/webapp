@@ -1,0 +1,112 @@
+{% load static %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load widget_tweaks %}
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="content-language" content="ja">
+  {% block header %}
+  {% endblock %}
+  <title>{% block title %}スカウトWEBアプリ{% endblock %}</title>
+  <style type="text/css">
+<!--
+div.icon {
+  float: left;
+  margin: 8px;
+  height: 92px;
+  width: 92px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  font-size: 8pt;
+}
+img.icon {
+  max-width: 92px;
+  max-height: 92px;
+}
+img.gray {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+-->
+  </style>
+  <script src="https://kit.fontawesome.com/9bd8e15c9f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- ヘッダコンテンツ -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <a class="navbar-brand" href="{% url 'register:top' %}">スカウトWEBアプリ</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" 
+		     id="navbarDropdown" role="button" data-toggle="dropdown" 
+			 aria-haspopup="true" aria-expanded="false">修得課目</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ BASE_URL }}/handbook/subject/1/">カブブック</a>
+            <a class="dropdown-item" href="{{ BASE_URL }}/handbook/subject/2/">チャレンジ章</a>
+            <a class="dropdown-item" href="{{ BASE_URL }}/handbook/subject/3/">スカウトハンドブック章</a>
+            <a class="dropdown-item" href="{{ BASE_URL }}/handbook/subject/4/">技能章</a>
+            <a class="dropdown-item" href="{{ BASE_URL }}/handbook/subject/5/">信仰奨励章・宗教章</a>
+          </div>
+        </li>
+{% if user.is_leader %}
+	    <li class="nav-item">
+	      <a class="nav-item nav-link" href="{% url 'register:user_list' %}">所属団一覧</a>
+	    </li>
+{% endif %}
+{% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" 
+             id="navbarDropdownRegister" role="button" data-toggle="dropdown" 
+             aria-haspopup="true" aria-expanded="false">アカウント</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownRegister">
+            <a class="dropdown-item" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
+            <a class="dropdown-item" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
+            <a class="dropdown-item" href="{% url 'register:password_change' %}">パスワードの変更</a>
+            <a class="dropdown-item" href="{% url 'register:email_change' %}">メールアドレスの変更</a>
+            <a class="dropdown-item" href="{% url 'register:logout' %}">ログアウト</a>
+          </div>
+        </li>
+{% else %}
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'register:login' %}">ログイン</a>
+        </li>
+{% endif %}
+{% if user.is_superuser %}
+        <li class="nav-item">
+	      <a class="nav-item nav-link" href="{% url 'admin:index' %}">管理者画面</a>
+        </li>
+{% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <div class="container my-5 py-5">
+    {% block content %}{% endblock %}
+  </div>
+  <br/>
+  <!-- フッタコンテンツ -->
+  <nav class="navbar fixed-bottom navbar-dark bg-success">
+    <div class="col-12 align-text-bottom">
+      <p class="text-light text-right">Copyright &copy; 2021 10th Shibuya Group, Tokyo Scout Council, SAJ All right reserved.</p> 
+    </div>
+  <nav>
+
+</body>
+</html>
+

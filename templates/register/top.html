@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+  <p>ようこそ、{{ user.get_full_name }}さん</p>
+  <p>あなたは {{ user.team_name }} に所属の
+  {% if user.is_leader %}
+    指導者
+  {% else %}
+    スカウト
+  {%endif %}
+  です。</p>
+  {% if user.is_staff %}
+    <p>このサイトの 管理権限 があります</p>
+  {% endif %}
+{% else %}
+  <p>ようこそ。</p>
+  <p>このサイトはボーイスカウトの進級課目を閲覧できます。</p>
+  <p>メニューからお選びください</p>
+  <p>ユーザー登録をすることで、記録を確認することができる予定です</p>
+  <p>※現在準備中です</p>
+{% endif %}
+{% endblock %}
+

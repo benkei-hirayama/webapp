@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}ユーザー情報更新{% endblock %}
+{% block content %}
+<form action="" method="POST">
+    {{ form.non_field_errors }}
+    <table class="table">
+        <tbody>
+            {% for field in form %}
+                <tr>
+                    <th><label class="float-right" for="{{ field.id_for_label }}">{{ field.label }}</label></th>
+                    <td>{{ field }} {{ field.errors }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% csrf_token %}
+    <div class="form-group row justify-content-center">
+        <button type="submit" class="btn btn-success btn-lg" >送信</button>
+    </div>
+</form>
+{% endblock %}

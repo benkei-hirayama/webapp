@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="overflow-auto">
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background-color: lightgray; text-align: center;">
+        <td>氏名</td>
+        <td>スカウト／指導者</td>
+        <td>所属団</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in user_list %}
+      <tr>
+        <td>
+          {% if not u.is_leader %} 
+            <a href="/handbook/course/{{u.id}}/">
+          {% endif %}
+            {{u.last_name}} {{u.first_name}}
+          {% if not u.is_leader %} 
+            </a>
+          {% endif %}
+        </td>
+        <td>
+          {% if u.is_leader %}
+	        指導者
+          {% else %}
+	        スカウト
+          {% endif %}
+        </td>
+		<td>{{u.team_name}}</td>
+      </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}}
